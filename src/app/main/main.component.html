@@ -1,0 +1,50 @@
+
+<p-panel header="Repositories for selected user: {{user}}" >
+
+    <p-table *ngIf="repositories; else spinnerBlock" [value]="repositories" [columns]="columns" [resizableColumns]="true"
+    [ngClass]="{ 'word-break': 'break-all'}" > 
+
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+        </ng-template>  
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Repository name</th>
+                <th>Owner login name </th>
+                <th>Branches </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-repo>
+            <tr>
+                <td>{{repo.repo.name}}</td>
+                <td>{{repo.repo.owner.login}}</td>
+                <td>
+                    <p-table [value]="repo.branches[0]" > 
+                        
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Branch name</th>
+                                <th>Commit sha </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-branch>
+                            <tr>
+                                <td>{{branch.name}}</td>
+                                <td>{{branch.commit.sha}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+    <ng-template #spinnerBlock>
+        <p-progressSpinner></p-progressSpinner>
+    </ng-template>
+
+</p-panel>
